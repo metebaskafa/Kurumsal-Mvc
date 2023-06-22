@@ -17,12 +17,48 @@ namespace Gorev7P013.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Gorev7P013.Models.Category", b =>
+            modelBuilder.Entity("Gorev7P013.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHome")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("Gorev7P013.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,18 +85,18 @@ namespace Gorev7P013.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2023, 4, 16, 22, 40, 34, 343, DateTimeKind.Local).AddTicks(711),
+                            CreateDate = new DateTime(2023, 5, 3, 18, 55, 44, 941, DateTimeKind.Local).AddTicks(9686),
                             Name = "Elektronik"
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2023, 4, 16, 22, 40, 34, 343, DateTimeKind.Local).AddTicks(712),
+                            CreateDate = new DateTime(2023, 5, 3, 18, 55, 44, 941, DateTimeKind.Local).AddTicks(9688),
                             Name = "Bilgisayar"
                         });
                 });
 
-            modelBuilder.Entity("Gorev7P013.Models.Product", b =>
+            modelBuilder.Entity("Gorev7P013.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,6 +117,12 @@ namespace Gorev7P013.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHome")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -99,7 +141,7 @@ namespace Gorev7P013.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Gorev7P013.Models.Slider", b =>
+            modelBuilder.Entity("Gorev7P013.Entities.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,18 +149,7 @@ namespace Gorev7P013.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Link")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -127,7 +158,7 @@ namespace Gorev7P013.Migrations
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("Gorev7P013.Models.User", b =>
+            modelBuilder.Entity("Gorev7P013.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,7 +204,7 @@ namespace Gorev7P013.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2023, 4, 16, 22, 40, 34, 343, DateTimeKind.Local).AddTicks(591),
+                            CreateDate = new DateTime(2023, 5, 3, 18, 55, 44, 941, DateTimeKind.Local).AddTicks(9551),
                             Email = "admin@Gorev7P013.com",
                             IsActive = true,
                             IsAdmin = true,
@@ -182,15 +213,20 @@ namespace Gorev7P013.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Gorev7P013.Models.Product", b =>
+            modelBuilder.Entity("Gorev7P013.Entities.Product", b =>
                 {
-                    b.HasOne("Gorev7P013.Models.Category", "Category")
-                        .WithMany()
+                    b.HasOne("Gorev7P013.Entities.Category", "Category")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Gorev7P013.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using Gorev7P013.Models;
+﻿using Gorev7P013.Entities;
+using Gorev7P013.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gorev7P013.Data
@@ -9,6 +10,8 @@ namespace Gorev7P013.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public object Contacts { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

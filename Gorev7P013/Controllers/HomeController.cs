@@ -1,30 +1,58 @@
-﻿using Gorev7P013.Models;
+﻿using Gorev7P013.Data;
+using Gorev7P013.Entities;
+using Gorev7P013.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Gorev7P013.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly DatabaseContext _databaseContext;
+        public HomeController(DatabaseContext databaseContext)
         {
-            _logger = logger;
+            _databaseContext = databaseContext;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> IndexAsync()
         {
-            var model = new List<Slider>() {
-            new Slider() { Id = 1, Image = "/Image/B.jpg" },
-            new Slider() { Id = 2, Image = "/Image/B2.jpg" },
-            new Slider() { Id = 3, Image = "/Image/B3.jpg",        },
+            var model = new HomePageViewModel()
+            {
+                Sliders = await _databaseContext.Sliders.ToListAsync(),
+                Products = await _databaseContext.Products.Where(p => p.IsActive && p.IsHome).ToListAsync(),
             };
+
             return View(model);
         }
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ContactUsAsync(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _databaseContext.AddAsync(contact);
+                    await _databaseContext.SaveChangesAsync();
+                    TempData["Mesaj"] = "<div class'alert alert-success'>Mesajınız Gönderildi..Teşekkürler.. </div>";
+                    return RedirectToAction("ContactUs");
+                }
+                catch (Exception)
+                {
+
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
+            }
             return View();
         }
 

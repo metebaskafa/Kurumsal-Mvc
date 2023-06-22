@@ -1,5 +1,5 @@
 ﻿using Gorev7P013.Data;
-using Gorev7P013.Models;
+using Gorev7P013.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,11 +40,11 @@ namespace Gorev7P013.Areas.Admin.Controllers
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(User collection)
+        public ActionResult Create(User user)
         {
             try
             {
-                _databaseContext.Users.Add(collection);
+                _databaseContext.Add(user);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -68,7 +68,7 @@ namespace Gorev7P013.Areas.Admin.Controllers
         {
             try
             {
-                _databaseContext.Users.Update(collection);
+                _databaseContext.Update(collection);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -92,7 +92,7 @@ namespace Gorev7P013.Areas.Admin.Controllers
         {
             try
             {
-                _databaseContext.Users.Remove(collection);
+                _databaseContext.Remove(collection);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

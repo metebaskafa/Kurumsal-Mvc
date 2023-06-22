@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Gorev7P013.Models
+namespace Gorev7P013.Entities
 {
     public class Product
     {
@@ -15,11 +15,15 @@ namespace Gorev7P013.Models
         public int Stock { get; set; }
         [Display(Name = "Resim"), StringLength(50)]
         public string? Image { get; set; }
-        [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)]
+        [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)] // ScaffoldColumn oluşacak viewlarda CreateDate alanının otomatik oluşturulmasını engeller
         public DateTime CreateDate { get; set; } = DateTime.Now;
         [Display(Name = "Kategori")]
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } // CategoryId db deki foreign key olacak
         [Display(Name = "Kategori")]
-        public Category? Category { get; set; }
+        public Category? Category { get; set; } // ürün ile kategori class ını 1 e 1 ilişki ile bağladık
+        [Display(Name = "Durum")]
+        public bool IsActive { get; set; }
+        [Display(Name = "Anasayfa")]
+        public bool IsHome { get; set; }
     }
 }

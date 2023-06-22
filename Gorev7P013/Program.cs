@@ -1,10 +1,16 @@
 using Gorev7P013.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+{
+    x.LoginPath = "/Admin/Login"; // login sisteminin varsayýlan login giriþ adresini kendi adresimizle deðiþtiriyoruz
+    x.Cookie.Name = "AdminLogin"; // oturum için oluþacak cookie nin ismini belirledik
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

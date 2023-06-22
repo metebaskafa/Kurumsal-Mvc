@@ -1,7 +1,8 @@
 ﻿using Gorev7P013.Data;
-using Gorev7P013.Models;
+using Gorev7P013.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Gorev7P013.Areas.Admin.Controllers
 {
@@ -36,7 +37,7 @@ namespace Gorev7P013.Areas.Admin.Controllers
         {
             try
             {
-                _databaseContext.Categories.Add(collection);
+                _databaseContext.Add(collection);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -59,7 +60,7 @@ namespace Gorev7P013.Areas.Admin.Controllers
         {
             try
             {
-                _databaseContext.Categories.Update(collection);
+                _databaseContext.Update(collection);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -84,7 +85,7 @@ namespace Gorev7P013.Areas.Admin.Controllers
         {
             try
             {
-                _databaseContext.Categories.Remove(collection);
+                _databaseContext.Remove(collection);
                 _databaseContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
